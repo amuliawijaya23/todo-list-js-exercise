@@ -1,31 +1,44 @@
-// Arrays to keep track of each task's state
-const taskTitles = [];
-const taskComplete = [];
+const thingsToDo = {
+  taskList: [],
 
-// Create a new task by adding to the arrays
-// A new task will be created as incomplete
-function newTask(title) {
-  taskTitles.push(title);
-  taskComplete.push(false);
-}
+  newTask: (title, description) => {
+    thingsToDo.taskList.push({
+      title: title,
+      description: description,
+      complete: false,
+    })
+  },
 
-// Mark a task as complete by setting the task's status in the `taskComplete` array to `true`
-function completeTask(taskIndex) {
-  taskComplete[taskIndex] = true;
-}
+  logState: (title) => {
+    for (let task of thingsToDo.taskList) {
+      if (title === task.title) {
+        console.log(`${task.title} has${task.complete ? " " : " not "}been completed`);
+      }
+    }
+  },
 
-// Print the state of a task to the console in a nice readable way
-function logTaskState(taskIndex) {
-  const title = taskTitles[taskIndex];
-  const complete = taskComplete[taskIndex];
-  console.log(`${title} has${complete ? " " : " not "}been completed`);
-}
+  markCompleted: (title) => {
+    for (let task of thingsToDo.taskList) {
+      if (title === task.title) {
+        task.complete = true;
+      }
+    }
+  },
 
-// DRIVER CODE BELOW
+  allTasks: () => {
+    return thingsToDo.taskList;
+  }
+};
 
-newTask("Clean Cat Litter"); // task 0
-newTask("Do Laundry"); // task 1
 
-logTaskState(0); // Clean Cat Litter has not been completed
-completeTask(0);
-logTaskState(0); // Clean Cat Litter has been completed
+// DRIVER CODE CHANGES BELOW
+
+thingsToDo.newTask("Clean Cat Litter", "Take all the 💩 out of the litter box");
+thingsToDo.newTask("Do Laundry", "😨");
+
+
+thingsToDo.logState('Clean Cat Litter');
+thingsToDo.markCompleted('Clean Cat Litter');
+thingsToDo.logState('Clean Cat Litter');
+
+console.log(thingsToDo.allTasks());
